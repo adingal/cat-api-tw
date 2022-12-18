@@ -6,7 +6,8 @@
     "paths": {
       "assets/*": ["./src/assets/*"],
       "components/*": ["./src/components/*"],
-      "atoms/*": ["./src/atoms/*"]
+      "atoms/*": ["./src/atoms/*"],
+      "context/*": ["./src/context/*"]
     }
   },
   "include": ["src/**/*"],
