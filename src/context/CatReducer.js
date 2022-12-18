@@ -7,6 +7,13 @@ const catReducer = (state, action) => {
         isLoading: false,
         error: false,
       }
+    case 'GET_SELECTED_BREED':
+      return {
+        ...state,
+        breed: action.payload,
+        isLoading: false,
+        error: false,
+      }
     case 'SET_LOADING':
       return { ...state, isLoading: true }
     default:
