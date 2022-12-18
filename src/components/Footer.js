@@ -3,7 +3,7 @@ import CustomContainer from 'atoms/CustomContainer'
 
 const Footer = () => {
   return (
-    <footer className="bg-white py-8 px-3 border-t shadow-neutral-200">
+    <footer className="bg-white py-8 border-t shadow-neutral-200">
       <CustomContainer>
         <p className="text-sm font-medium text-end text-gray-700 md:text-base">
           {new Date().getFullYear()} &copy;
