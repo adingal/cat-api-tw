@@ -33,7 +33,7 @@ const App = () => {
       dispatch({ type: 'SET_LOADING' })
       getBreed(currentBreed, page)
     }
-  }, [page])
+  }, [page, currentBreed])
 
   // Get  breed
   const getBreed = async (value, page) => {

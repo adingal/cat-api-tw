@@ -13,7 +13,7 @@ const Content = ({ page, setPage, getBreed }) => {
   const handleSelectChange = async (e) => {
     dispatch({ type: 'CLEAR_SELECTED_BREED' })
     dispatch({ type: 'SET_SELECTED_BREED', payload: e.target.value })
-    getBreed(e.target.value, 1)
+    setPage(1)
   }
 
   // Handle load more button click
