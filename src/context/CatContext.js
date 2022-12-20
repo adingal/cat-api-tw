@@ -7,6 +7,7 @@ export const CatProvider = ({ children }) => {
   const initialState = {
     breed: [],
     breeds: [],
+    currentBreed: '',
     isLoading: false,
     error: false,
   }
