@@ -1,55 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import CustomContainer from 'atoms/CustomContainer'
 import BreedCard from 'atoms/BreedCard'
 
 import CatContext from 'context/CatContext'
-import { getCatBreeds, getSelectedBreed } from 'context/CatActions'
 
-const Content = () => {
-  const { breed, breeds, dispatch } = useContext(CatContext)
-  const [page, setPage] = useState(1)
-  const [currentBreed, setCurrentBreed] = useState('')
+const Content = ({ page, setPage, getBreed }) => {
+  // Get context states and methods
+  const { breed, breeds, currentBreed, dispatch } = useContext(CatContext)
   const breedCount = breed?.length > 0 ? `${breed.length} results` : '0 result'
 
-  useEffect(() => {
-    if (breeds?.length === 0) {
-      dispatch({ type: 'SET_LOADING' })
-      const getBreeds = async () => {
-        const catBreeds = await getCatBreeds()
-        dispatch({ type: 'GET_BREEDS', payload: catBreeds })
-      }
-      getBreeds()
-    }
-  }, [dispatch])
-
-  useEffect(() => {
-    if (currentBreed !== '') {
-      dispatch({ type: 'SET_LOADING' })
-      getBreed(currentBreed, page)
-    }
-  }, [page])
-
-  const getBreed = async (value, page) => {
-    dispatch({ type: 'SET_LOADING' })
-    const data = await getSelectedBreed(value, page)
-    dispatch({ type: 'GET_SELECTED_BREED', payload: data })
-  }
-
+  // Handle select option change
   const handleSelectChange = async (e) => {
     dispatch({ type: 'CLEAR_SELECTED_BREED' })
-    setCurrentBreed(e.target.value)
+    dispatch({ type: 'SET_SELECTED_BREED', payload: e.target.value })
     getBreed(e.target.value, 1)
   }
 
+  // Handle load more button click
   const handleLoadMoreClick = () => {
     setPage((prev) => prev + 1)
   }
 
+  // Render select options
   const renderSelect = () => (
     <select
       onChange={handleSelectChange}
       className="w-full min-w-[150px] text-sm text-gray-700 mb-3 border rounded-md p-2 outline-none cursor-pointer md:w-auto md:text-base md:mb-0"
-      defaultValue="default"
+      value={`${currentBreed !== '' ? currentBreed : 'default'}`}
     >
       <option value="default" disabled>
         Choose breed
