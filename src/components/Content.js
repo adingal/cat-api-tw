@@ -9,6 +9,7 @@ const Content = () => {
   const { breed, breeds, dispatch } = useContext(CatContext)
   const [page, setPage] = useState(1)
   const [currentBreed, setCurrentBreed] = useState('')
+  const breedCount = breed?.length > 0 ? `${breed.length} results` : '0 result'
 
   useEffect(() => {
     dispatch({ type: 'SET_LOADING' })
@@ -45,7 +46,7 @@ const Content = () => {
   const renderSelect = () => (
     <select
       onChange={handleSelectChange}
-      className="w-full min-w-[150px] text-sm text-gray-700 border rounded-md p-2 outline-none cursor-pointer md:w-auto md:text-base"
+      className="w-full min-w-[150px] text-sm text-gray-700 mb-3 border rounded-md p-2 outline-none cursor-pointer md:w-auto md:text-base md:mb-0"
       defaultValue="default"
     >
       <option value="default" disabled>
@@ -63,7 +64,12 @@ const Content = () => {
   return (
     <main className="mb-auto py-8 lg:py-16">
       <CustomContainer>
-        <div className="mb-4 lg:mb-6">{renderSelect()}</div>
+        <div className="flex flex-col justify-between mb-4 md:flex-row lg:mb-6">
+          {renderSelect()}
+          {currentBreed !== '' && (
+            <p className="text-sm text-gray-700 md:text-base">{breedCount}</p>
+          )}
+        </div>
         {breed?.length > 0 ? (
           <div className="grid grid-cols-1 gap-y-4 mb-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-4 lg:mb-6">
             {breed.map((item, index) => (
@@ -72,7 +78,9 @@ const Content = () => {
           </div>
         ) : (
           <div className="mb-4 lg:mb-6">
-            <p>Please select cat breed.</p>
+            <p className="text-sm text-gray-700 md:text-base">
+              Please select cat breed.
+            </p>
           </div>
         )}
         {breed?.length >= 10 && page < 10 && (
