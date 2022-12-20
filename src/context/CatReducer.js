@@ -10,7 +10,14 @@ const catReducer = (state, action) => {
     case 'GET_SELECTED_BREED':
       return {
         ...state,
-        breed: action.payload,
+        breed: [...state.breed, ...action.payload],
+        isLoading: false,
+        error: false,
+      }
+    case 'CLEAR_SELECTED_BREED':
+      return {
+        ...state,
+        breed: [],
         isLoading: false,
         error: false,
       }

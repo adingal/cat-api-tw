@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CustomContainer from 'atoms/CustomContainer'
 import BreedCard from 'atoms/BreedCard'
 
@@ -7,6 +7,8 @@ import { getCatBreeds, getSelectedBreed } from 'context/CatActions'
 
 const Content = () => {
   const { breed, breeds, dispatch } = useContext(CatContext)
+  const [page, setPage] = useState(1)
+  const [currentBreed, setCurrentBreed] = useState('')
 
   useEffect(() => {
     dispatch({ type: 'SET_LOADING' })
@@ -17,10 +19,27 @@ const Content = () => {
     getBreeds()
   }, [dispatch])
 
-  const handleSelectChange = async (e) => {
+  useEffect(() => {
+    if (currentBreed !== '') {
+      dispatch({ type: 'SET_LOADING' })
+      getBreed(currentBreed, page)
+    }
+  }, [page])
+
+  const getBreed = async (value, page) => {
     dispatch({ type: 'SET_LOADING' })
-    const getBreed = await getSelectedBreed(e.target.value, 1)
-    dispatch({ type: 'GET_SELECTED_BREED', payload: getBreed })
+    const data = await getSelectedBreed(value, page)
+    dispatch({ type: 'GET_SELECTED_BREED', payload: data })
+  }
+
+  const handleSelectChange = async (e) => {
+    dispatch({ type: 'CLEAR_SELECTED_BREED' })
+    setCurrentBreed(e.target.value)
+    getBreed(e.target.value, 1)
+  }
+
+  const handleLoadMoreClick = () => {
+    setPage((prev) => prev + 1)
   }
 
   const renderSelect = () => (
@@ -46,14 +65,25 @@ const Content = () => {
       <CustomContainer>
         <div className="mb-4 lg:mb-6">{renderSelect()}</div>
         {breed?.length > 0 ? (
-          <div className="grid grid-cols-1 gap-y-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-4">
-            {breed.map((item) => (
-              <BreedCard item={item} key={item.id} />
+          <div className="grid grid-cols-1 gap-y-4 mb-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-4 lg:mb-6">
+            {breed.map((item, index) => (
+              <BreedCard item={item} key={`${index}-${item.id}`} />
             ))}
           </div>
         ) : (
-          <div>
+          <div className="mb-4 lg:mb-6">
             <p>Please select cat breed.</p>
+          </div>
+        )}
+        {breed?.length >= 10 && page < 10 && (
+          <div>
+            <button
+              onClick={handleLoadMoreClick}
+              className="w-full bg-stone-800 text-white mb-4 rounded-md py-2 px-4 md:w-auto lg:mb-6 hover:bg-stone-600"
+              type="button"
+            >
+              Load More
+            </button>
           </div>
         )}
       </CustomContainer>
