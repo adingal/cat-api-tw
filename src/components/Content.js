@@ -12,12 +12,14 @@ const Content = () => {
   const breedCount = breed?.length > 0 ? `${breed.length} results` : '0 result'
 
   useEffect(() => {
-    dispatch({ type: 'SET_LOADING' })
-    const getBreeds = async () => {
-      const catBreeds = await getCatBreeds()
-      dispatch({ type: 'GET_BREEDS', payload: catBreeds })
+    if (breeds?.length === 0) {
+      dispatch({ type: 'SET_LOADING' })
+      const getBreeds = async () => {
+        const catBreeds = await getCatBreeds()
+        dispatch({ type: 'GET_BREEDS', payload: catBreeds })
+      }
+      getBreeds()
     }
-    getBreeds()
   }, [dispatch])
 
   useEffect(() => {
