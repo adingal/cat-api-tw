@@ -6,7 +6,7 @@ import CatContext from 'context/CatContext'
 import { getCatInfo } from 'context/CatActions'
 
 const CatInfo = () => {
-  const { catInformation, dispatch } = useContext(CatContext)
+  const { catInformation, isLoading, dispatch } = useContext(CatContext)
   const params = useParams()
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const CatInfo = () => {
                 </div>
               </div>
             </div>
-          ) : (
+          ) : isLoading ? null : (
             <p className="text-sm md:text-base text-gray-700">
               Failed to fetch cat data...
             </p>

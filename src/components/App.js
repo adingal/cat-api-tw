@@ -7,12 +7,13 @@ import Header from 'components/Header'
 import Content from 'components/Content'
 import CatInfo from 'components/CatInfo'
 import Footer from 'components/Footer'
+import Loading from 'atoms/Loading'
 
 import CatContext from 'context/CatContext'
 import { getCatBreeds, getSelectedBreed } from 'context/CatActions'
 
 const App = () => {
-  const { breeds, currentBreed, dispatch } = useContext(CatContext)
+  const { breeds, currentBreed, isLoading, dispatch } = useContext(CatContext)
   const [page, setPage] = useState(1)
 
   // Get breeds on initial render to fill select input
@@ -44,6 +45,7 @@ const App = () => {
 
   return (
     <Layout>
+      <Loading isLoading={isLoading} />
       <Header />
       <Router>
         <Routes>
