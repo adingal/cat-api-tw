@@ -6,7 +6,7 @@ const Header = () => {
     <header className="bg-white py-8 border-b shadow-neutral-200">
       <CustomContainer>
         <a
-          className="block text-base font-medium tracking-wider text-gray-700 md:text-lg lg:text-2xl cursor-pointer hover:text-gray-900"
+          className="block text-xl font-medium tracking-wider text-gray-700 md:text-2xl lg:text-3xl cursor-pointer hover:text-gray-900"
           href="/"
         >
           CatAPI
