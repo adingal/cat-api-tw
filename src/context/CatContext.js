@@ -8,6 +8,7 @@ export const CatProvider = ({ children }) => {
     breed: [],
     breeds: [],
     currentBreed: '',
+    catInformation: null,
     isLoading: false,
     error: false,
   }
